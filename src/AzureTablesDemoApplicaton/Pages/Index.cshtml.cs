@@ -185,11 +185,27 @@ namespace AzureTablesDemoApplicaton.Pages
 
             var transactionActions = bulkData.Select(item => new TableTransactionAction(TableTransactionActionType.Add, item));
             var response = _tableClient.SubmitTransaction(transactionActions);
-                       
-            //foreach (var item in bulkData)
-            //{
-            //    _tableClient.AddEntity(item);
-            //}
+
+            return RedirectToPage("index", "Get");
+        }
+
+
+        public IActionResult OnPostUpdateEntity(string partitionKey, string rowKey)
+        {
+            TableEntity entity = _tableClient.GetEntity<TableEntity>(partitionKey, rowKey).Value;
+            
+            // Get the keys to the form, but remove the ones we have already handled
+            var dataKeys = Request.Form.Keys.Where(key => !(new string[] { "PartitionKey", "RowKey", "__RequestVerificationToken" }).Contains(key));
+            foreach (var key in dataKeys)
+            {
+                var value = Request.Form[key].First();
+
+                if (Double.TryParse(value, out double number))
+                    entity[key] = value;
+                else
+                    entity[key] = value;
+            }
+            _tableClient.UpdateEntity(entity, ETag.All );
 
             return RedirectToPage("index", "Get");
         }

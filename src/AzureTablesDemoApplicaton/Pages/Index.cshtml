@@ -47,16 +47,13 @@
             <td>@item[column]</td>
         }
         <td class="text-end">
-            <button class="btn btn-primary btn-sm">Update</button>
+            <button class="btn btn-primary btn-sm entity-update" data-table-entity="@FormatEntityAsJson(item)">Update</button>
 
             <form method="post" class="d-inline-block">
                 <input type="hidden" name="partitionKey" value="@item.PartitionKey" />
                 <input type="hidden" name="rowKey" value="@item.RowKey" />
-                <button asp-page-handler="RemoveEntity" 
-                    class="btn btn-danger btn-sm">Delete</button>
+                <button asp-page-handler="RemoveEntity" class="btn btn-danger btn-sm">Delete</button>
             </form>
-
-            <!-- <button class="btn btn-danger btn-sm">Delete</button> -->
         </td>
     </tr>
 }
@@ -200,7 +197,7 @@
                         <input type="date" id="observationDateCustomEntity" name="observationDate" class="form-control">
                       </div>
                       <div class="col-sm-4">
-                        <input type="time" id="observationTimeCustomEntity" name="observationTime" class="form-control" step="1800">
+                        <input type="time" id="observationTimeCustomEntity" name="observationTime" class="form-control">
                       </div>
                     </div>
 
@@ -485,8 +482,39 @@
 
 
 
+<!-- Update Entity Modal -->
+<div class="modal fade" id="updateEntityModel" tabindex="-2" aria-labelledby="updateEntityLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <form method="post">            
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="updateEntityLabel">Update entity</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="updateEntityDiv" class="modal-body">
+                        
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="updateEntityButton" type="submit" class="btn btn-primary" asp-page-handler="updateEntity">Update Entity</button>
+            </div>
+        </div>
+    </form>>
+  </div>
+</div>
 
 
+@functions {
+    public static string FormatEntityAsJson(Azure.Data.Tables.TableEntity entity)
+    {
+        var fieldNames = entity.Keys.Where(key => !(new string[]{ "PartitionKey", "RowKey", "odata.etag", "Timestamp" }).Contains(key));
+        var fields = fieldNames.Select(fieldName => new { FieldName = fieldName, Value = entity[fieldName] });
+
+        var data = new { PartitionKey = entity.PartitionKey, RowKey = entity.RowKey, Fields = fields };
+
+        return System.Text.Json.JsonSerializer.Serialize(data);
+    }
+}
 
 
 
@@ -509,25 +537,76 @@
         </div>
     </script>
 
-    <script>
-    
+
+    <!-- The handlebars.js template for updating an entity-->
+    <script id="entity-update-template" type="text/x-handlebars-template">      
+        <div class="row g-3 mb-2">
+          <div class="col-sm-4">
+            <label for="PartitionKeyUpdate" class="col-form-label">Partition Key</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" id="PartitionKeyUpdate" name="PartitionKey" class="form-control" value="{{PartitionKey}}" readonly="readonly">
+          </div>
+        </div>
+        <div class="row g-3 mb-2">
+          <div class="col-sm-4">
+            <label for="RowKeyUpdate" class="col-form-label">Row Key</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" id="RowKeyUpdate" name="RowKey" class="form-control" value="{{RowKey}}" readonly="readonly">
+          </div>
+        </div>
+
+        <hr />
+
+        {{#each Fields}}
+            <div class="row g-3 mb-2">
+              <div class="col-sm-4">
+                <label for="{{this.FieldName}}Update" class="col-form-label">{{this.FieldName}}</label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" id="{{this.FieldName}}Update" name="{{this.FieldName}}" class="form-control" value="{{this.Value}}">
+              </div>
+            </div>
+	    {{/each}}
+
+    </script>
+
+
+    <script>    
         $(document).ready(function() {
             var templateBase = $('#custom-field-template').html();
-            var template = Handlebars.compile(templateBase);
+            var customFieldTemplate = Handlebars.compile(templateBase);
 
             $("#customFieldButton").on('click', function() {
                 var text = $("#customFieldName").val();
                 var fieldName = text.replace(/ /g, '');
 
                 var data = { "fieldName": fieldName, "fieldText": text};
-                var html = template(data);
+                var html = customFieldTemplate(data);
                 
                 $("#addCustomFieldDiv").before(html);
                 
                 $("#" + fieldName + "Remove").on('click', function() {
                     $("#" + fieldName + "Div").remove();
                 });
-            });        
+            });
+            
+
+            // For Entity Updates
+            var updateEntityModel = new bootstrap.Modal(document.getElementById('updateEntityModel'));
+            var entityUpdateBase = $('#entity-update-template').html();
+            var entityUpdateTemplate = Handlebars.compile(entityUpdateBase);
+
+            $(".entity-update").on('click', function(event) {
+                var entity = $(event.target).data("table-entity");
+
+                var html = entityUpdateTemplate(entity);
+                
+                $("#updateEntityDiv").html(html);
+                updateEntityModel.show();
+            });
+
         });
     
     </script>
