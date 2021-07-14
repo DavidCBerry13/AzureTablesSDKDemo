@@ -1,5 +1,5 @@
 using Azure.Data.Tables;
-using AzureTablesDemoApplicaton.Filters;
+using AzureTablesDemoApplication.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton
+namespace AzureTablesDemoApplication
 {
     public class Startup
     {

@@ -1,5 +1,5 @@
-﻿using AzureTablesDemoApplicaton.Models;
-using AzureTablesDemoApplicaton.Utilities;
+﻿using AzureTablesDemoApplication.Models;
+using AzureTablesDemoApplication.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Filters
+namespace AzureTablesDemoApplication.Filters
 {
     public class ValidationFilter : IPageFilter
     {

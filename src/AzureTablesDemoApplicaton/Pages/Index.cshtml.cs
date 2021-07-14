@@ -1,8 +1,8 @@
 ﻿using Azure;
 using Azure.Data.Tables;
-using AzureTablesDemoApplicaton.Data;
-using AzureTablesDemoApplicaton.Entities;
-using AzureTablesDemoApplicaton.Models;
+using AzureTablesDemoApplication.Data;
+using AzureTablesDemoApplication.Entities;
+using AzureTablesDemoApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Pages
+namespace AzureTablesDemoApplication.Pages
 {
     public class IndexModel : PageModel
     {

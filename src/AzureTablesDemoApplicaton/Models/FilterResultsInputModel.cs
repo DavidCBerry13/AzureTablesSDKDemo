@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Models
+namespace AzureTablesDemoApplication.Models
 {
     public class FilterResultsInputModel : IValidatableObject
     {

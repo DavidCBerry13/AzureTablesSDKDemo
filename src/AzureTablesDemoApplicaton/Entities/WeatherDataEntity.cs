@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Entities
+namespace AzureTablesDemoApplication.Entities
 {
     public class WeatherDataEntity : ITableEntity
     {

@@ -1,10 +1,10 @@
-﻿using AzureTablesDemoApplicaton.Models;
+﻿using AzureTablesDemoApplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Utilities
+namespace AzureTablesDemoApplication.Utilities
 {
     public static class MessageLevelExtensions
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AzureTablesDemoApplicaton.Utilities
+namespace AzureTablesDemoApplication.Utilities
 {
     public static class TempDataExtensions
     {

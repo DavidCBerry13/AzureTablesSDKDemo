@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Azure;
 using Azure.Data.Tables;
-using AzureTablesDemoApplicaton.Models;
+using AzureTablesDemoApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace AzureTablesDemoApplicaton.Pages
+namespace AzureTablesDemoApplication.Pages
 {
     public class FilterResultsModel : PageModel
     {
