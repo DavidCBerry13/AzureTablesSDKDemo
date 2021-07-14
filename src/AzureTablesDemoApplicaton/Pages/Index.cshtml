@@ -1,7 +1,23 @@
 ﻿@page
+@using AzureTablesDemoApplicaton.Models
+@using AzureTablesDemoApplicaton.Utilities
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+}
+
+<!-- Error Messages (if there is one) --> 
+@if (TempData.ContainsKey("errors"))
+{
+    var errors = TempData.Get<IEnumerable<MessageModel>>("errors") as IEnumerable<MessageModel>;
+    foreach (var error in errors)
+    {
+        <div class="alert @error.Level.ToCssClass() alert-dismissible fade show" role="alert">
+            @error.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">            
+            </button>
+        </div>        
+    }
 }
 
 
@@ -21,6 +37,7 @@
 </div>
 
 <hr />
+
 
 <h3>Weather Data</h3>
 <table class="table table-sm mb-1">
@@ -310,7 +327,7 @@
                         <input type="date" id="observationDateExpandable" name="observationDate" class="form-control">
                       </div>
                       <div class="col-sm-4">
-                        <input type="time" id="observationTimeExpandable" name="observationTime" class="form-control" step="1800">
+                        <input type="time" id="observationTimeExpandable" name="observationTime" class="form-control">
                       </div>
                     </div>
 
@@ -467,6 +484,20 @@
                           </select>
                       </div>
                     </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-sm-4">
+                        <label for="bulkDataCity" class="col-form-label">City</label>
+                      </div>
+                      <div class="col-sm-8">
+                          <select id="bulkDataCity" name="City" class="form-control">
+                              <option>Chicago</option>
+                              <option>Miami</option>
+                              <option>Phoenix</option>
+                          </select>
+                      </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -502,6 +533,13 @@
     </form>>
   </div>
 </div>
+
+
+
+
+
+
+
 
 
 @functions {

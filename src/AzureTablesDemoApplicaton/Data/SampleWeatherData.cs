@@ -12,9 +12,24 @@ namespace AzureTablesDemoApplicaton.Data
 
        
 
-        public static IEnumerable<TableEntity> GetSampleUsCustomaryData()
+        public static IEnumerable<TableEntity> GetSampleUsCustomaryData(string city)
         {
+            switch(city)
+            {
+                case "Chicago":
+                    return GetChicagoUsCustomaryData();
+                case "Miami":
+                    return GetMiamiUsCustomaryData();
+                case "Phoenix": 
+                    return GetPhoenixUsCustomaryData();
+                default:
+                    throw new ApplicationException($"No data for city {city}");
+            }
+        }
 
+
+        private static IEnumerable<TableEntity> GetChicagoUsCustomaryData()
+        {
             var data = new[]
             {
                 new { Station = "Chicago", Date = "2021-07-01 00:00", Temperature = 72, Humidity = 82, Barometer = 29.99, WindDirection = "S", WindSpeed = 1, Precipitation = "0.01" },
@@ -49,7 +64,26 @@ namespace AzureTablesDemoApplicaton.Data
                 new { Station = "Chicago", Date = "2021-07-04 15:00", Temperature = 88, Humidity = 45, Barometer = 29.93, WindDirection = "SW", WindSpeed = 7, Precipitation = "0.00" },
                 new { Station = "Chicago", Date = "2021-07-04 18:00", Temperature = 87, Humidity = 51, Barometer = 29.93, WindDirection = "W", WindSpeed = 13, Precipitation = "0.00" },
                 new { Station = "Chicago", Date = "2021-07-04 21:00", Temperature = 82, Humidity = 63, Barometer = 29.93, WindDirection = "SW", WindSpeed = 9, Precipitation = "0.00" },
-                /*
+            };
+
+            return data.Select(item => {
+                var entity = new TableEntity(item.Station, item.Date);
+                entity["Temperature"] = item.Temperature;
+                entity["Humidity"] = item.Humidity;
+                entity["Barometer"] = item.Barometer;
+                entity["WindDirection"] = item.WindDirection;
+                entity["WindSpeed"] = item.WindSpeed;
+                entity["Precipitation"] = item.Precipitation;
+
+                return entity;
+            });
+        }
+
+
+        private static IEnumerable<TableEntity> GetMiamiUsCustomaryData()
+        {
+            var data = new[]
+            {
                 new { Station = "Miami", Date = "2021-07-01 00:00", Temperature = 76, Humidity = 97, Barometer = 30.03, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.00" },
                 new { Station = "Miami", Date = "2021-07-01 03:00", Temperature = 75, Humidity = 96, Barometer = 30.00, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.00" },
                 new { Station = "Miami", Date = "2021-07-01 06:00", Temperature = 75, Humidity = 100, Barometer = 29.99, WindDirection = "N", WindSpeed = 3, Precipitation = "0.00" },
@@ -81,45 +115,7 @@ namespace AzureTablesDemoApplicaton.Data
                 new { Station = "Miami", Date = "2021-07-04 12:00", Temperature = 90, Humidity = 59, Barometer = 30.01, WindDirection = "SE", WindSpeed = 10, Precipitation = "0.00" },
                 new { Station = "Miami", Date = "2021-07-04 15:00", Temperature = 92, Humidity = 60, Barometer = 29.97, WindDirection = "E", WindSpeed = 13, Precipitation = "0.00" },
                 new { Station = "Miami", Date = "2021-07-04 18:00", Temperature = 89, Humidity = 65, Barometer = 29.95, WindDirection = "SE", WindSpeed = 10, Precipitation = "0.00" },
-                new { Station = "Miami", Date = "2021-07-04 21:00", Temperature = 82, Humidity = 82, Barometer = 29.99, WindDirection = "SE", WindSpeed = 3, Precipitation = "0.00" },
-                */
-
-                //new { Station = "Phoenix", Date = "2021-07-01 00:00", Temperature = 89, Humidity = 39, Barometer = 28.67, WindDirection = "SE", WindSpeed = 8, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 03:00", Temperature = 88, Humidity = 40, Barometer = 28.66, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 06:00", Temperature = 86, Humidity = 38, Barometer = 28.69, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 09:00", Temperature = 93, Humidity = 31, Barometer = 28.72, WindDirection = "W", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 12:00", Temperature = 100, Humidity = 23, Barometer = 28.67, WindDirection = "W", WindSpeed = 9, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 15:00", Temperature = 104, Humidity = 19, Barometer = 28.58, WindDirection = "N", WindSpeed = 6, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 18:00", Temperature = 106, Humidity = 19, Barometer = 28.51, WindDirection = "W", WindSpeed = 10, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-01 21:00", Temperature = 102, Humidity = 21, Barometer = 28.55, WindDirection = "S", WindSpeed = 5, Precipitation = "0.00" },
-
-                //new { Station = "Phoenix", Date = "2021-07-02 00:00", Temperature = 93, Humidity = 36, Barometer = 28.64, WindDirection = "NE", WindSpeed = 12, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 03:00", Temperature = 89, Humidity = 42, Barometer = 28.61, WindDirection = "E", WindSpeed = 7, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 06:00", Temperature = 90, Humidity = 37, Barometer = 28.66, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 09:00", Temperature = 92, Humidity = 38, Barometer = 28.69, WindDirection = "W", WindSpeed = 7, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 12:00", Temperature = 96, Humidity = 32, Barometer = 28.68, WindDirection = "W", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 15:00", Temperature = 101, Humidity = 26, Barometer = 28.59, WindDirection = "VARIABLE", WindSpeed = 3, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 18:00", Temperature = 103, Humidity = 22, Barometer = 28.55, WindDirection = "W", WindSpeed = 10, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-02 21:00", Temperature = 98, Humidity = 25, Barometer = 28.61, WindDirection = "S", WindSpeed = 13, Precipitation = "0.00" },
-                
-                //new { Station = "Phoenix", Date = "2021-07-03 00:00", Temperature = 92, Humidity = 38, Barometer = 28.67, WindDirection = "SE", WindSpeed = 7, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 03:00", Temperature = 91, Humidity = 37, Barometer = 28.67, WindDirection = "E", WindSpeed = 6, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 06:00", Temperature = 88, Humidity = 42, Barometer = 28.69, WindDirection = "E", WindSpeed = 6, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 09:00", Temperature = 94, Humidity = 36, Barometer = 28.70, WindDirection = "E", WindSpeed = 7, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 12:00", Temperature = 99, Humidity = 29, Barometer = 28.68, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 15:00", Temperature = 104, Humidity = 22, Barometer = 28.59, WindDirection = "W", WindSpeed = 12, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 18:00", Temperature = 104, Humidity = 60, Barometer = 28.56, WindDirection = "W", WindSpeed = 8, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-03 21:00", Temperature = 81, Humidity = 77, Barometer = 28.71, WindDirection = "E", WindSpeed = 6, Precipitation = "0.21" },
-                
-                //new { Station = "Phoenix", Date = "2021-07-04 00:00", Temperature = 81, Humidity = 72, Barometer = 28.73, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.05" },
-                //new { Station = "Phoenix", Date = "2021-07-04 03:00", Temperature = 81, Humidity = 72, Barometer = 28.70, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 06:00", Temperature = 81, Humidity = 74, Barometer = 28.72, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 09:00", Temperature = 86, Humidity = 70, Barometer = 28.74, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 12:00", Temperature = 94, Humidity = 38, Barometer = 28.72, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 15:00", Temperature = 99, Humidity = 31, Barometer = 28.64, WindDirection = "N", WindSpeed = 8, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 18:00", Temperature = 102, Humidity = 26, Barometer = 28.59, WindDirection = "S", WindSpeed = 7, Precipitation = "0.00" },
-                //new { Station = "Phoenix", Date = "2021-07-04 21:00", Temperature = 98, Humidity = 31, Barometer = 28.60, WindDirection = "S", WindSpeed = 5, Precipitation = "0.00" },
-
+                new { Station = "Miami", Date = "2021-07-04 21:00", Temperature = 82, Humidity = 82, Barometer = 29.99, WindDirection = "SE", WindSpeed = 3, Precipitation = "0.00" }
             };
 
             return data.Select(item => {
@@ -135,6 +131,60 @@ namespace AzureTablesDemoApplicaton.Data
             });
         }
 
+        private static IEnumerable<TableEntity> GetPhoenixUsCustomaryData()
+        {
+            var data = new[]
+            {
+                new { Station = "Phoenix", Date = "2021-07-01 00:00", Temperature = 89, Humidity = 39, Barometer = 28.67, WindDirection = "SE", WindSpeed = 8, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 03:00", Temperature = 88, Humidity = 40, Barometer = 28.66, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 06:00", Temperature = 86, Humidity = 38, Barometer = 28.69, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 09:00", Temperature = 93, Humidity = 31, Barometer = 28.72, WindDirection = "W", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 12:00", Temperature = 100, Humidity = 23, Barometer = 28.67, WindDirection = "W", WindSpeed = 9, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 15:00", Temperature = 104, Humidity = 19, Barometer = 28.58, WindDirection = "N", WindSpeed = 6, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 18:00", Temperature = 106, Humidity = 19, Barometer = 28.51, WindDirection = "W", WindSpeed = 10, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-01 21:00", Temperature = 102, Humidity = 21, Barometer = 28.55, WindDirection = "S", WindSpeed = 5, Precipitation = "0.00" },
+
+                new { Station = "Phoenix", Date = "2021-07-02 00:00", Temperature = 93, Humidity = 36, Barometer = 28.64, WindDirection = "NE", WindSpeed = 12, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 03:00", Temperature = 89, Humidity = 42, Barometer = 28.61, WindDirection = "E", WindSpeed = 7, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 06:00", Temperature = 90, Humidity = 37, Barometer = 28.66, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 09:00", Temperature = 92, Humidity = 38, Barometer = 28.69, WindDirection = "W", WindSpeed = 7, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 12:00", Temperature = 96, Humidity = 32, Barometer = 28.68, WindDirection = "W", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 15:00", Temperature = 101, Humidity = 26, Barometer = 28.59, WindDirection = "VARIABLE", WindSpeed = 3, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 18:00", Temperature = 103, Humidity = 22, Barometer = 28.55, WindDirection = "W", WindSpeed = 10, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-02 21:00", Temperature = 98, Humidity = 25, Barometer = 28.61, WindDirection = "S", WindSpeed = 13, Precipitation = "0.00" },
+                
+                new { Station = "Phoenix", Date = "2021-07-03 00:00", Temperature = 92, Humidity = 38, Barometer = 28.67, WindDirection = "SE", WindSpeed = 7, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 03:00", Temperature = 91, Humidity = 37, Barometer = 28.67, WindDirection = "E", WindSpeed = 6, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 06:00", Temperature = 88, Humidity = 42, Barometer = 28.69, WindDirection = "E", WindSpeed = 6, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 09:00", Temperature = 94, Humidity = 36, Barometer = 28.70, WindDirection = "E", WindSpeed = 7, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 12:00", Temperature = 99, Humidity = 29, Barometer = 28.68, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 15:00", Temperature = 104, Humidity = 22, Barometer = 28.59, WindDirection = "W", WindSpeed = 12, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 18:00", Temperature = 104, Humidity = 60, Barometer = 28.56, WindDirection = "W", WindSpeed = 8, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-03 21:00", Temperature = 81, Humidity = 77, Barometer = 28.71, WindDirection = "E", WindSpeed = 6, Precipitation = "0.21" },
+                
+                new { Station = "Phoenix", Date = "2021-07-04 00:00", Temperature = 81, Humidity = 72, Barometer = 28.73, WindDirection = "CALM", WindSpeed = 0, Precipitation = "0.05" },
+                new { Station = "Phoenix", Date = "2021-07-04 03:00", Temperature = 81, Humidity = 72, Barometer = 28.70, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 06:00", Temperature = 81, Humidity = 74, Barometer = 28.72, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 09:00", Temperature = 86, Humidity = 70, Barometer = 28.74, WindDirection = "E", WindSpeed = 3, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 12:00", Temperature = 94, Humidity = 38, Barometer = 28.72, WindDirection = "E", WindSpeed = 5, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 15:00", Temperature = 99, Humidity = 31, Barometer = 28.64, WindDirection = "N", WindSpeed = 8, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 18:00", Temperature = 102, Humidity = 26, Barometer = 28.59, WindDirection = "S", WindSpeed = 7, Precipitation = "0.00" },
+                new { Station = "Phoenix", Date = "2021-07-04 21:00", Temperature = 98, Humidity = 31, Barometer = 28.60, WindDirection = "S", WindSpeed = 5, Precipitation = "0.00" },
+
+            };
+
+            return data.Select(item => {
+                var entity = new TableEntity(item.Station, item.Date);
+                entity["Temperature"] = item.Temperature;
+                entity["Humidity"] = item.Humidity;
+                entity["Barometer"] = item.Barometer;
+                entity["WindDirection"] = item.WindDirection;
+                entity["WindSpeed"] = item.WindSpeed;
+                entity["Precipitation"] = item.Precipitation;
+
+                return entity;
+            });
+        }
     }
 
 

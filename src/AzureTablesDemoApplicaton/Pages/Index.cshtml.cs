@@ -179,9 +179,9 @@ namespace AzureTablesDemoApplicaton.Pages
         }
 
 
-        public IActionResult OnPostInsertBulkData(string units)
+        public IActionResult OnPostInsertBulkData(string units, string city)
         {
-            var bulkData = SampleWeatherData.GetSampleUsCustomaryData();
+            var bulkData = SampleWeatherData.GetSampleUsCustomaryData(city);
 
             var transactionActions = bulkData.Select(item => new TableTransactionAction(TableTransactionActionType.Add, item));
             var response = _tableClient.SubmitTransaction(transactionActions);
