@@ -35,13 +35,14 @@ namespace AzureTablesDemoApplication.Pages
         public IEnumerable<string> ColumnNames { get; set; }
         public Pageable<TableEntity> WeatherObservations { get; set; }
 
-
         public void OnGet()
         {
             var entities = _tableClient.Query<TableEntity>();
 
             ColumnNames = entities.SelectMany(e => e.Keys).Distinct().Where(key => !EXCLUDE_TABLE_ENTITY_KEYS.Contains(key));
             WeatherObservations = entities;
+
+
         }
 
 
@@ -181,7 +182,7 @@ namespace AzureTablesDemoApplication.Pages
 
         public IActionResult OnPostInsertBulkData(string units, string city)
         {
-            var bulkData = SampleWeatherData.GetSampleUsCustomaryData(city);
+            var bulkData = SampleWeatherData.GetSampleData(units, city);
 
             var transactionActions = bulkData.Select(item => new TableTransactionAction(TableTransactionActionType.Add, item));
             var response = _tableClient.SubmitTransaction(transactionActions);

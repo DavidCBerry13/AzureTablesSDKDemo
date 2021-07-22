@@ -10,10 +10,12 @@ namespace AzureTablesDemoApplication.Entities
     public class WeatherDataEntity : ITableEntity
     {
 
+        public String PartitionKey { get; set; }  // Station Name
 
-        public String PartitionKey { get; set; }  // Station ID
         public string RowKey { get; set; }        // Observation date
+
         public DateTimeOffset? Timestamp { get; set; }
+
         public ETag ETag { get; set; }
 
         public double Temperature { get; set; }
